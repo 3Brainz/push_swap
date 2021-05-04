@@ -77,20 +77,24 @@ void	ft_print_list(t_numbers *head)
 	curr_num = head;
 	if (!curr_num)
 		return ;
+	printf("-\n");
 	while (curr_num)
 	{
 		printf("%d\n", curr_num->number);
 		curr_num = curr_num->next;
 	}
+	printf("-\n");
 }
 
 int	main(int argc, char **argv)
 {
 	int			i;
 	t_numbers	*head;
+	t_numbers	*stack_b;
 
 	i = 1;
 	head = 0;
+	stack_b = 0;
 	if (argc == 1)
 		exit(0);
 	while (argv[i])
@@ -108,7 +112,6 @@ int	main(int argc, char **argv)
 		ft_split_nu(&head, argv[i]);
 		i++;
 	}
-	ft_print_list(head);
 	if (ft_checkdoubles(head))
 	{
 		write (2, "Error\n", 6);
@@ -116,13 +119,14 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	if (ft_isordered(head))
-	{
 		write (1, "OK\n", 3);
-	}
 	else
-	{
 		write (1, "KO\n", 3);
-	}
+
+	printf("a\n");
+	ft_print_list(head);
+	printf("b\n");
+	ft_print_list(stack_b);
 	ft_freelist(head);
 	return (0);
 }

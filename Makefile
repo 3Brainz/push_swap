@@ -1,5 +1,5 @@
 #Name
-NAME =					
+NAME = checker			
 
 #Compiler
 CC = 			gcc
@@ -21,7 +21,12 @@ OBJDIR =  		./objs
 INCDIR = 		./incs
 
 #Files
-FILES =					
+FILES =		ft_checker.c \
+			ft_checker_lst.c \
+			ft_moves.c \
+			ft_utils.c \
+			get_next_line_utils.c \
+			get_next_line.c
 
 #Srcs
 SRCS = 			$(foreach FILE, $(FILES), $(shell find $(SRCDIR) -name $(FILE)))
