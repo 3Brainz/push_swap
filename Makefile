@@ -21,12 +21,16 @@ OBJDIR =  		./objs
 INCDIR = 		./incs
 
 #Files
-FILES =		ft_checker.c \
-			ft_checker_lst.c \
+FILES =		ft_lst_utils1.c \
+			ft_lst_utils2.c \
+			ft_moves_executor.c \
 			ft_moves.c \
+			ft_parsing_checks.c \
 			ft_utils.c \
 			get_next_line_utils.c \
-			get_next_line.c
+			get_next_line.c \
+			ft_filler.c \
+			ft_checker.c
 
 #Srcs
 SRCS = 			$(foreach FILE, $(FILES), $(shell find $(SRCDIR) -name $(FILE)))

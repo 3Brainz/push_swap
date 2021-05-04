@@ -1,47 +1,5 @@
 #include "checker.h"
 
-int	ft_atoi(char *str)
-{
-	int	i;
-	int	neg;
-	int	nbr;
-
-	i = 0;
-	neg = 1;
-	nbr = 0;
-	while ((str[i] == '\t') || (str[i] == '\n') || (str[i] == '\v') || \
-		(str[i] == '\f') || (str[i] == '\r') || (str[i] == ' '))
-		i++;
-	if (str[i] == '-' || str[i] == '+')
-	{
-		if (str[i] == '-')
-			neg = neg * -1;
-		i++;
-	}
-	while (str[i] >= '0' && str[i] <= '9')
-	{
-		nbr = nbr * 10;
-		nbr = nbr + str[i] - '0';
-		i++;
-	}
-	nbr = nbr * neg;
-	return (nbr);
-}
-
-void	*ft_calloc(long count, long size)
-{
-	void	*ptr;
-	long	i;
-
-	i = 0;
-	ptr = malloc(count * size);
-	if (!ptr)
-		return (NULL);
-	while (i < count * size)
-		((char *)ptr)[i++] = 0;
-	return (ptr);
-}
-
 t_numbers	*ft_new_node(int nu, t_numbers *prev)
 {
 	t_numbers	*ret;
@@ -67,28 +25,6 @@ void	ft_lst_add(int nu, t_numbers **head)
 		curr_num = curr_num->next;
 	}
 	curr_num->next = ft_new_node(nu, curr_num);
-}
-
-void	ft_split_nu(t_numbers **head, char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (ft_isdigit(str[i]) || ft_issymbol(str[i]))
-		{
-			ft_lst_add(ft_atoi(&str[i]), head);
-		}
-		while (ft_isdigit(str[i]) || ft_issymbol(str[i]))
-		{
-			i++;
-		}
-		while (str[i] == ' ')
-		{
-			i++;
-		}
-	}
 }
 
 void	ft_freelist(t_numbers *head)

@@ -44,5 +44,13 @@ int			ft_iscinstr(char c, char const *str, size_t len);
 char		*ft_strnew(size_t size);
 char		*ft_strjoin(char *s1, char *s2);
 int			get_next_line(int fd, char **line);
+int			ft_strcmp_wo_n(char *str1, char *str2);
+void		ft_copynu(t_numbers *dest, t_numbers *src);
+t_numbers	*ft_last_elem(t_numbers *list);
+void		ft_fill_stack_a(char **argv, t_numbers **stack_a);
+void		ft_print_list(t_numbers *head);
+
+
+
 
 #endif
