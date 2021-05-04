@@ -95,6 +95,8 @@ void	ft_freelist(t_numbers *head)
 {
 	t_numbers	*next_nu;
 
+	if (!head)
+		return ;
 	while (head)
 	{
 		next_nu = head->next;

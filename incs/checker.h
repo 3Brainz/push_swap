@@ -43,5 +43,6 @@ size_t		ft_strlen(const char *str);
 int			ft_iscinstr(char c, char const *str, size_t len);
 char		*ft_strnew(size_t size);
 char		*ft_strjoin(char *s1, char *s2);
+int			get_next_line(int fd, char **line);
 
 #endif

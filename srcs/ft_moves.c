@@ -22,16 +22,11 @@ t_numbers	*ft_last_elem(t_numbers *list)
 
 	if (!list)
 		return (0);
-	curr_elem = list; 
+	curr_elem = list;
 	while (curr_elem->next)
 		curr_elem = curr_elem->next;
 	return (curr_elem);
 }
-/*
-sa : swap a - swap the first 2 elements at the top of stack a. (Do nothing if there is only one or no elements).
-sb : swap b - swap the first 2 elements at the top of stack b. (Do nothing if there is only one or no elements).
-ss : sa and sb at the same time.
-*/
 
 void	ft_copynu(t_numbers *dest, t_numbers *src)
 {
@@ -61,12 +56,6 @@ void	ft_swap(t_numbers **head)
 	*head = next;
 }
 
-/*
-pa : push a - take the first element at the top of b(src) and put it at the top of a(dest). Do
-nothing if b is empty.
-pb : push b - take the first element at the top of a and put it at the top of b. Do
-nothing if a is empty. */
-
 void	ft_push(t_numbers **dest, t_numbers **src)
 {
 	t_numbers	*temp_dest;
@@ -94,13 +83,6 @@ void	ft_push(t_numbers **dest, t_numbers **src)
 	}	
 }
 
-/*
-ra : rotate a - shift up all elements of stack a by 1. The first element becomes
-the last one.
-rb : rotate b - shift up all elements of stack b by 1. The first element becomes the last one.
-rr : ra and rb at the same time.
-*/
-
 void	ft_rotate(t_numbers **stack)
 {
 	t_numbers	*last_elem;
@@ -116,12 +98,6 @@ void	ft_rotate(t_numbers **stack)
 	last_elem->next->prev = last_elem;
 	last_elem->next->next = 0;
 }
-
-/*
-rra : reverse rotate a - shift down all elements of stack a by 1. The last element becomes the first one.
-rrb : reverse rotate b - shift down all elements of stack b by 1. The last element becomes the first one.
-rrr : rra and rrb at the same time.
-*/
 
 void	ft_reverse_rotate(t_numbers **stack)
 {
@@ -139,37 +115,99 @@ void	ft_reverse_rotate(t_numbers **stack)
 	(*stack)->next->prev = *stack;
 }
 
-void	ft_do_move(t_numbers **stack_a, t_numbers **stack_b, char *move)
+int	ft_doswap(t_numbers **stack_a, t_numbers **stack_b, char *move)	
 {
 	if (!ft_strcmp_wo_n("sa", move))
+	{
 		ft_swap(stack_a);
+		return (1);
+	}
 	if (!ft_strcmp_wo_n("sb", move))
+	{
 		ft_swap(stack_b);
+		return (1);
+	}
 	if (!ft_strcmp_wo_n("ss", move))
 	{
 		ft_swap(stack_a);
 		ft_swap(stack_b);
+		return (1);
 	}
+	else
+		return (0);
+}
+
+int	ft_dopush(t_numbers **stack_a, t_numbers **stack_b, char *move)
+{
 	if (!ft_strcmp_wo_n("pb", move))
-		ft_push(stack_a, stack_b);
-	if (!ft_strcmp_wo_n("pa", move))
+	{
 		ft_push(stack_b, stack_a);
+		return (1);
+	}
+	if (!ft_strcmp_wo_n("pa", move))
+	{
+		ft_push(stack_a, stack_b);
+		return (1);
+	}
+	else
+		return (0);
+}
+
+int	ft_dorotate(t_numbers **stack_a, t_numbers **stack_b, char *move)
+{
 	if (!ft_strcmp_wo_n("ra", move))
+	{		
 		ft_rotate(stack_a);
+		return (1);
+	}
 	if (!ft_strcmp_wo_n("rb", move))
+	{
 		ft_rotate(stack_b);
+		return (1);
+	}
 	if (!ft_strcmp_wo_n("rr", move))
 	{
 		ft_rotate(stack_a);
 		ft_rotate(stack_b);
+		return (1);
 	}
+	else
+		return (0);
+}
+
+int	ft_do_reverse_rotate(t_numbers **stack_a, t_numbers **stack_b, char *move)
+{
 	if (!ft_strcmp_wo_n("rra", move))
+	{
 		ft_reverse_rotate(stack_a);
+		return (1);
+	}
 	if (!ft_strcmp_wo_n("rrb", move))
+	{
 		ft_reverse_rotate(stack_b);
+		return (1);
+	}
 	if (!ft_strcmp_wo_n("rrr", move))
 	{
 		ft_reverse_rotate(stack_a);
 		ft_reverse_rotate(stack_b);
+		return (1);
+	}
+	else
+		return (0);
+}
+
+void	ft_do_move(t_numbers **stack_a, t_numbers **stack_b, char *move)
+{
+	if (!(ft_doswap(stack_a, stack_b, move) || \
+		ft_dopush(stack_a, stack_b, move) || \
+		ft_dorotate(stack_a, stack_b, move) || \
+		ft_do_reverse_rotate(stack_a, stack_b, move)))
+	{
+		write (2, "Error\n", 6);
+		ft_freelist(*stack_a);
+		ft_freelist(*stack_b);
+		free(&move);
+		exit (1);
 	}
 }

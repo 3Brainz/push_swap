@@ -86,47 +86,60 @@ void	ft_print_list(t_numbers *head)
 	printf("-\n");
 }
 
-int	main(int argc, char **argv)
+void	ft_fill_stack_a(char **argv, t_numbers **stack_a)
 {
-	int			i;
-	t_numbers	*head;
-	t_numbers	*stack_b;
+	int	i;
 
 	i = 1;
-	head = 0;
-	stack_b = 0;
-	if (argc == 1)
-		exit(0);
 	while (argv[i])
 	{
 		if (!(ft_validarg(argv[i])))
 		{
 			write (2, "Error\n", 6);
-			return (1);
+			exit (1);
 		}
 		i++;
 	}
 	i = 1;
 	while (argv[i])
 	{
-		ft_split_nu(&head, argv[i]);
+		ft_split_nu(stack_a, argv[i]);
 		i++;
 	}
-	if (ft_checkdoubles(head))
+	if (ft_checkdoubles(*stack_a))
 	{
 		write (2, "Error\n", 6);
-		ft_freelist(head);
-		return (1);
+		ft_freelist(*stack_a);
+		exit (1);
 	}
-	if (ft_isordered(head))
+}
+
+int	main(int argc, char **argv)
+{
+	char		*line;
+	t_numbers	*head;
+	t_numbers	*stack_b;
+
+	head = 0;
+	stack_b = 0;
+	if (argc == 1)
+		exit(0);
+	ft_fill_stack_a(argv, &head);
+	while (get_next_line(0, &line))
+	{
+		ft_do_move(&head, &stack_b, line);
+		free(line);
+	}
+	free(line);
+	if (ft_isordered(head) && !stack_b)
 		write (1, "OK\n", 3);
 	else
 		write (1, "KO\n", 3);
-
 	printf("a\n");
 	ft_print_list(head);
 	printf("b\n");
 	ft_print_list(stack_b);
+	ft_freelist(stack_b);
 	ft_freelist(head);
 	return (0);
 }
