@@ -3,7 +3,7 @@ NAME = push_swap
 
 #Compiler
 CC = 			gcc
-CFLAGS = 		-Wall -Wextra -Werror
+CFLAGS = 		-Wall -Wextra -Werror -g
 CFLAG = 		-c
 OFLAG =			-o
 IFLAG =			-I
@@ -21,7 +21,16 @@ OBJDIR =  		./objs
 INCDIR = 		./incs
 
 #Files
-FILES =
+FILES =		ft_lst_utils1.c \
+			ft_lst_utils2.c \
+			ft_moves_executor.c \
+			ft_moves.c \
+			ft_parsing_checks.c \
+			ft_utils.c \
+			get_next_line_utils.c \
+			get_next_line.c \
+			ft_filler.c \
+			push_swap.c
 
 #Srcs
 SRCS = 			$(foreach FILE, $(FILES), $(shell find $(SRCDIR) -name $(FILE)))
