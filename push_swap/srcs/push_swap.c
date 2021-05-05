@@ -86,43 +86,52 @@ void	ft_indicize_list(t_numbers *stack)
 	}
 }
 
-void	ft_sort_three(t_numbers *stack_a, t_numbers *stack_b)
+void	ft_sort_three(t_numbers **stack_a, t_numbers **stack_b)
 {
 	t_numbers	*curr_nu;
 	int			curr_elab;
 
-	curr_nu = stack_a;
-	curr_elab = ft_list_len(stack_a) - 1;
+	(void)stack_b;
+	curr_nu = *stack_a;
+	curr_elab = ft_list_len(*stack_a) - 1;
 	if (!curr_elab)
 		return ;
-	while (curr_nu)
+	while (!ft_isordered(*stack_a))
 	{
-		
+		curr_nu = *stack_a;
+		while (curr_nu)
+		{
+			if ((*stack_a)->position > (*stack_a)->next->position)
+			{
+				printf("wewe\n");
+				ft_swap(stack_a);
+			}
+			curr_nu = curr_nu->next;
+		}
 	}
 }
 
-void	ft_case_analyzer(t_numbers *stack_a, t_numbers *stack_b)
+void	ft_case_analyzer(t_numbers **stack_a, t_numbers **stack_b)
 {
 	int	stack_len;
 
-	stack_len = ft_list_len(stack_a);
+	stack_len = ft_list_len(*stack_a);
 	if (stack_len <= 3)
 	{
-
+		printf("wewe\n");
+		ft_sort_three(stack_a, stack_b);
 	}
 	if (stack_len <= 5)
 	{
-
+		(void)stack_len;
 	}
 	if (stack_len <= 100)
 	{
-
+		(void)stack_len;
 	}
-	if (stack_len > 100)
 	{
-
+		(void)stack_len;
 	}
-	
 }
 
 int main(int argc, char **argv)
@@ -136,6 +145,7 @@ int main(int argc, char **argv)
 		exit(0);
 	ft_fill_stack_a(argv, &stack_a);
 	ft_indicize_list(stack_a);
+	ft_case_analyzer(&stack_a, &stack_b);
 	ft_print_list(stack_a);
 	printf("len = %d\n", ft_list_len(stack_a));
 }
