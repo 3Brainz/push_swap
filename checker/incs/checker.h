@@ -11,10 +11,12 @@
 # define V_SYMBOLS "+-"
 # define NODOUBLES ""
 # define BUFFER_SIZE 1
+# define MAX_INT 2147483647
+# define MIN_INT -2147483648
 
 typedef struct s_numbers
 {
-	int					number;
+	long				number;
 	struct s_numbers	*next;
 	struct s_numbers	*prev;
 	int					position;
@@ -24,10 +26,10 @@ int			ft_isdigit(char c);
 int			ft_isvalidchar(char c);
 int			ft_validarg(char *str);
 int			ft_issymbol(char c);
-int			ft_atoi(char *str);
+long		ft_atoi(char *str);
 void		*ft_calloc(long count, long size);
-t_numbers	*ft_new_node(int nu, t_numbers *prev);
-void		ft_lst_add(int nu, t_numbers **head);
+t_numbers	*ft_new_node(long nu, t_numbers *prev);
+void		ft_lst_add(long nu, t_numbers **head);
 void		ft_split_nu(t_numbers **head, char *str);
 void		*ft_memset(void *b, int c, size_t len);
 void		ft_bzero(void *s, size_t n);
@@ -49,8 +51,5 @@ void		ft_copynu(t_numbers *dest, t_numbers *src);
 t_numbers	*ft_last_elem(t_numbers *list);
 void		ft_fill_stack_a(char **argv, t_numbers **stack_a);
 void		ft_print_list(t_numbers *head);
-
-
-
 
 #endif

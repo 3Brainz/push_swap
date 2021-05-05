@@ -1,6 +1,6 @@
 #include "checker.h"
 
-t_numbers	*ft_new_node(int nu, t_numbers *prev)
+t_numbers	*ft_new_node(long nu, t_numbers *prev)
 {
 	t_numbers	*ret;
 
@@ -10,7 +10,7 @@ t_numbers	*ft_new_node(int nu, t_numbers *prev)
 	return (ret);
 }
 
-void	ft_lst_add(int nu, t_numbers **head)
+void	ft_lst_add(long nu, t_numbers **head)
 {
 	t_numbers	*curr_num;
 

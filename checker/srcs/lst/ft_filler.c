@@ -10,15 +10,18 @@ void	ft_split_nu(t_numbers **head, char *str)
 		if (ft_isdigit(str[i]) || ft_issymbol(str[i]))
 		{
 			ft_lst_add(ft_atoi(&str[i]), head);
+			if (ft_last_elem(*head)->number > MAX_INT || \
+				ft_last_elem(*head)->number < MIN_INT)
+			{
+				ft_freelist(*head);
+				write(2, "Error\n", 6);
+				exit (1);
+			}
 		}
 		while (ft_isdigit(str[i]) || ft_issymbol(str[i]))
-		{
 			i++;
-		}
 		while (str[i] == ' ')
-		{
 			i++;
-		}
 	}
 }
 

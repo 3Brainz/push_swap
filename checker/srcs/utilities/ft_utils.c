@@ -18,11 +18,11 @@ void	ft_bzero(void *s, size_t n)
 	ft_memset(s, '\0', n);
 }
 
-int	ft_atoi(char *str)
+long	ft_atoi(char *str)
 {
-	int	i;
-	int	neg;
-	int	nbr;
+	int		i;
+	int		neg;
+	long	nbr;
 
 	i = 0;
 	neg = 1;
@@ -70,7 +70,7 @@ void	ft_print_list(t_numbers *head)
 	printf("-\n");
 	while (curr_num)
 	{
-		printf("%d\n", curr_num->number);
+		printf("%li\n", curr_num->number);
 		curr_num = curr_num->next;
 	}
 	printf("-\n");
