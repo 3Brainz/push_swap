@@ -136,10 +136,36 @@ char	*ft_convenient_rotation_a(t_numbers *stack, t_numbers *node)
 {
 	int len;
 
+	if (!stack)
+		return ("");
 	len = ft_list_len(stack);
 	if (ft_node_pos(stack, node) > len / 2)
 		return("rra");
 	return ("ra");
+}
+
+char	*ft_convenient_rotation_b(t_numbers *stack, t_numbers *node)
+{
+	int len;
+
+	if (!stack)
+		return ("");
+	len = ft_list_len(stack);
+	if (ft_node_pos(stack, node) > len / 2)
+		return("rrb");
+	return ("rb");
+}
+
+char	*ft_convenient_rotation(t_numbers *stack, t_numbers *node)
+{
+	int len;
+
+	if (!stack)
+		return ("");
+	len = ft_list_len(stack);
+	if (ft_node_pos(stack, node) > len / 2)
+		return("rr");
+	return ("r");
 }
 
 void	ft_do_convenient_rot_to_top_a(t_numbers **stack, int pos)
@@ -205,6 +231,38 @@ int	ft_is_consequent_ordered(t_numbers *stack)
 // 	return (len);
 // }
 
+int	ft_min_near_nu(t_numbers **stack_a, int medium)
+{
+	int	r;
+	int	rr;
+	t_numbers *curr_nu_r;
+	t_numbers *curr_nu_rr;
+
+	curr_nu_r = *stack_a;
+	r = 0;
+	rr = 0;
+	while (curr_nu_r)
+	{
+		if (curr_nu_r->position < medium)
+			break ;
+		r += 1;
+		curr_nu_r = curr_nu_r->next;
+	}
+	curr_nu_rr = ft_last_elem(*stack_a);
+	while (curr_nu_rr)
+	{
+		if (curr_nu_rr->position < medium)
+			break ;
+		rr += 1;
+		curr_nu_rr = curr_nu_rr->prev;
+	}
+	if (r > rr)
+		return (curr_nu_r->position);
+	else
+		return (curr_nu_rr->position);
+	return (0);
+}
+
 void	ft_sort_five_a(t_numbers **stack_a, t_numbers **stack_b)
 {
 	int		curr_elab;
@@ -233,6 +291,20 @@ void	ft_sort_five_a(t_numbers **stack_a, t_numbers **stack_b)
 	}
 }
 
+void	ft_sort_more(t_numbers **stack_a, t_numbers **stack_b)
+{
+	int		len;
+
+	len = ft_list_len(*stack_a);
+	while ((ft_list_len(*stack_b) < len / 2))
+	{
+		if ((*stack_a)->position < len / 2)
+			ft_do_move(stack_a, stack_b, "pb");
+		else
+			ft_do_convenient_rot_to_top_a(stack_a, ft_min_near_nu(stack_a, len / 2));
+	}
+}
+
 void	ft_case_analyzer(t_numbers **stack_a, t_numbers **stack_b)
 {
 	int	stack_len;
@@ -249,11 +321,11 @@ void	ft_case_analyzer(t_numbers **stack_a, t_numbers **stack_b)
 	}
 	if (stack_len <= 100)
 	{
-		ft_sort_five_a(stack_a, stack_b);
+		ft_sort_more(stack_a, stack_b);
 	}
 	if (stack_len > 100)
 	{
-		ft_sort_five_a(stack_a, stack_b);
+		ft_sort_more(stack_a, stack_b);
 	}
 }
 
