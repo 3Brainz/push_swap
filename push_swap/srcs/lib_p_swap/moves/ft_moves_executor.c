@@ -85,6 +85,7 @@ int	ft_do_reverse_rotate(t_numbers **stack_a, t_numbers **stack_b, char *move)
 void	ft_do_move(t_numbers **stack_a, t_numbers **stack_b, char *move)
 {
 	write(1, move, ft_strlen(move));
+	write(1, "\n", 1);
 	if (!(ft_doswap(stack_a, stack_b, move) || \
 		ft_dopush(stack_a, stack_b, move) || \
 		ft_dorotate(stack_a, stack_b, move) || \
@@ -93,4 +94,11 @@ void	ft_do_move(t_numbers **stack_a, t_numbers **stack_b, char *move)
 		write (2, "Error\n", 6);
 		exit (1);
 	}
+	// printf("------------------\n");
+	// printf("stack_a\n");
+	// ft_print_list(*stack_a);
+	// printf("stack_b\n");
+	// if(stack_b)
+	// 	ft_print_list(*stack_b);
+	// printf("------------------\n");
 }
