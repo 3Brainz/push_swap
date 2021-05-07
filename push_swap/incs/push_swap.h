@@ -22,6 +22,14 @@ typedef struct s_numbers
 	int					position;
 }	t_numbers;
 
+typedef struct	s_move
+{
+	int			operations;
+	int			pos_of_nu;
+	char		*move;
+}	t_move;
+
+
 int			ft_isdigit(char c);
 int			ft_isvalidchar(char c);
 int			ft_validarg(char *str);
@@ -51,5 +59,19 @@ void		ft_copynu(t_numbers *dest, t_numbers *src);
 t_numbers	*ft_last_elem(t_numbers *list);
 void		ft_fill_stack_a(char **argv, t_numbers **stack_a);
 void		ft_print_list(t_numbers *head);
+int			ft_list_len(t_numbers *stack);
+void		ft_indicize_list(t_numbers *stack);
+int			ft_is_consequent_ordered(t_numbers *stack);
+int			ft_is_consequent_ordered_rev(t_numbers *stack);
+t_numbers	*ft_min_node(t_numbers *stack);
+t_numbers	*ft_succ_node(t_numbers *stack, t_numbers *rel_prev);
+int			ft_node_pos(t_numbers *stack, t_numbers *node);
+t_numbers 	*ft_node_with_pos(t_numbers *stack, int pos);
+int			ft_max_pos_in_stack(t_numbers *stack);
+int			ft_min_near_nu(t_numbers **stack_a, int medium);
+char		*ft_convenient_rotation_a(t_numbers *stack, t_numbers *node);
+char		*ft_convenient_rotation_b(t_numbers *stack, t_numbers *node);
+char		*ft_convenient_rotation(t_numbers *stack, t_numbers *node);
+void		ft_do_convenient_rot_to_top_a(t_numbers **stack, int pos);
 
 #endif
