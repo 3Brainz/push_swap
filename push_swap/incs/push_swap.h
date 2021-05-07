@@ -73,5 +73,8 @@ char		*ft_convenient_rotation_a(t_numbers *stack, t_numbers *node);
 char		*ft_convenient_rotation_b(t_numbers *stack, t_numbers *node);
 char		*ft_convenient_rotation(t_numbers *stack, t_numbers *node);
 void		ft_do_convenient_rot_to_top_a(t_numbers **stack, int pos);
+void		ft_sort_three_a(t_numbers **stack_a);
+void		ft_sort_five_a(t_numbers **stack_a, t_numbers **stack_b);
+int			ft_max_near_nu(t_numbers **stack_a, int medium, t_move *move);
 
 #endif

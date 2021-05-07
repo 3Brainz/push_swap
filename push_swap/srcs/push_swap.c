@@ -1,103 +1,5 @@
 #include "push_swap.h"
 
-void	ft_sort_three_a(t_numbers **stack_a)
-{
-	int			curr_elab;
-
-	curr_elab = ft_list_len(*stack_a) - 1;
-	if (!curr_elab)
-		return ;
-	while (!ft_isordered(*stack_a))
-	{
-		if ((*stack_a)->position > (*stack_a)->next->position)
-		{
-			ft_do_move(stack_a, NULL, "sa");
-		}
-		if(ft_isordered(*stack_a))
-			break;
-		ft_do_move(stack_a, NULL, "rra");
-	}
-}
-
-// int		ft_lis_len_from_node(t_numbers *stack, t_numbers *node)
-// {
-// 	int			len;
-// 	int			rel_min_pos;
-// 	t_numbers	*curr_nu;
-// 	t_numbers	*next_nu;
-
-// 	len = 0;
-// 	rel_min_pos = node->position;
-// 	curr_nu = node;
-// 	while (1)
-// 	{
-// 		if (!curr_nu->next)
-// 			next_nu = stack;
-// 		else
-// 			next_nu = curr_nu->next;
-// 		if (next_nu->position == node->position)
-// 			break ;
-// 		if (next_nu->position > re)
-// 		curr_nu = next_nu;
-// 	}
-// 	return (len);
-// }
-
-void	ft_sort_five_a(t_numbers **stack_a, t_numbers **stack_b)
-{
-	int		curr_elab;
-	int		index;
-
-	(void)stack_b;
-	index = 0;
-	curr_elab = ft_list_len(*stack_a) - 1;
-	if (!curr_elab)
-		return ;
-	if (ft_is_consequent_ordered(*stack_a))
-	{
-		ft_do_convenient_rot_to_top_a(stack_a, 0);
-		return ;
-	}
-	while (ft_list_len(*stack_a) > 3)
-	{
-		ft_do_convenient_rot_to_top_a(stack_a, index);
-		ft_do_move(stack_a, stack_b, "pb");
-		index += 1;
-	}
-	ft_sort_three_a(stack_a);
-	while (*stack_b)
-	{
-		ft_do_move(stack_a, stack_b, "pa");
-	}
-}
-
-int	*ft_void_int_array(int len)
-{
-	int *arr;
-	int index;
-
-	index = 0;
-	arr = malloc(len + 1 * sizeof(int));
-	while (index < len)
-	{
-		arr[index] = -1;
-		index += 1;
-	}
-	return (arr);
-}
-
-int ft_int_arr_len(int *arr)
-{
-	int index;
-
-	index = 0;
-	while (arr[index] > 0)
-	{
-		index++;
-	}
-	return (index);
-}
-
 void ft_pos_at_move(t_numbers *stack, t_move *move)
 {
 	t_numbers *curr_nu;
@@ -105,8 +7,6 @@ void ft_pos_at_move(t_numbers *stack, t_move *move)
 
 	curr_nu = stack;
 	operations= move->operations;
-	// printf("operations:%i\n", move->operations);
-	// usleep(1000000000);
 	if ((!ft_strcmp_wo_n("ra", move->move)))
 	{
 		while (operations)
@@ -266,6 +166,45 @@ void	ft_best_move_to_next_sup(t_move *move, t_numbers **stack, int median)
 	ft_pos_at_move(*stack, move);
 	printf("move->next_position:%i\n", move->pos_of_nu);
 	usleep(1000000);
+}
+
+void	ft_max_near_nu(t_numbers **stack_a, int medium, t_move *move)
+{
+	int			r;
+	int			rr;
+	t_numbers	*curr_nu_r;
+	t_numbers	*curr_nu_rr;
+
+	curr_nu_r = *stack_a;
+	r = 0;
+	rr = 1;
+	while (curr_nu_r)
+	{
+		if (curr_nu_r->position > medium)
+			break ;
+		r += 1;
+		curr_nu_r = curr_nu_r->next;
+	}
+	curr_nu_rr = ft_last_elem(*stack_a);
+	while (curr_nu_rr)
+	{
+		if (curr_nu_rr->position > medium)
+			break ;
+		rr += 1;
+		curr_nu_rr = curr_nu_rr->prev;
+	}
+	if (r > rr)
+	{
+		move->pos_of_nu = curr_nu_r->position;
+		move->move = "rra";
+		move->operations = rr;
+	}
+	else
+	{
+		move->pos_of_nu = curr_nu_r->position;
+		move->move = "rr";
+		move->operations = r;
+	}
 }
 
 void	ft_sort_more(t_numbers **stack_a, t_numbers **stack_b)

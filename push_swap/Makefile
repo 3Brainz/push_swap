@@ -30,6 +30,12 @@ FILES =		ft_lst_utils1.c \
 			get_next_line_utils.c \
 			get_next_line.c \
 			ft_filler.c \
+			list_utils.c \
+			ft_node_utils.c \
+			ft_node_utils2.c \
+			ft_rot_utils.c \
+			arr_utils.c \
+			ft_sorts.c \
 			push_swap.c
 
 #Srcs
