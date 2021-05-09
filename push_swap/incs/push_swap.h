@@ -20,6 +20,7 @@ typedef struct s_numbers
 	struct s_numbers	*next;
 	struct s_numbers	*prev;
 	int					position;
+	int					fake_position;
 }	t_numbers;
 
 typedef struct	s_move
@@ -29,6 +30,11 @@ typedef struct	s_move
 	char		*move;
 }	t_move;
 
+typedef	struct	s_near_positions
+{
+	int			next;
+	int			prev;
+}				t_near_positions;
 
 int			ft_isdigit(char c);
 int			ft_isvalidchar(char c);
@@ -75,6 +81,6 @@ char		*ft_convenient_rotation(t_numbers *stack, t_numbers *node);
 void		ft_do_convenient_rot_to_top_a(t_numbers **stack, int pos);
 void		ft_sort_three_a(t_numbers **stack_a);
 void		ft_sort_five_a(t_numbers **stack_a, t_numbers **stack_b);
-int			ft_max_near_nu(t_numbers **stack_a, int medium, t_move *move);
+int			ft_max_near_nu(t_numbers **stack_a, int medium);
 
 #endif

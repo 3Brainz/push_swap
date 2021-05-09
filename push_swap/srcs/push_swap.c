@@ -7,7 +7,7 @@ void ft_pos_at_move(t_numbers *stack, t_move *move)
 
 	curr_nu = stack;
 	operations= move->operations;
-	if ((!ft_strcmp_wo_n("ra", move->move)))
+	if ((!ft_strcmp_wo_n("rra", move->move)))
 	{
 		while (operations)
 		{
@@ -41,6 +41,44 @@ int	ft_next_inferior_index_ra_dist(t_numbers *stack, int median)
 	while (curr_nu)
 	{
 		if (curr_nu->position < median)
+			return (dist);
+		dist += 1;
+		curr_nu = curr_nu->next;
+	}
+	return (dist);
+}
+
+int ft_position_rr_dist(t_numbers *stack, int position)
+{
+	t_numbers	*curr_nu;
+	int 		dist;
+
+	dist = 1;
+	curr_nu = ft_last_elem(stack);
+	if (!curr_nu)
+		return (0);
+	while (curr_nu)
+	{
+		if (curr_nu->position == position)
+			return (dist);
+		dist += 1;
+		curr_nu = curr_nu->prev;
+	}
+	return (dist);
+}
+
+int ft_position_r_dist(t_numbers *stack, int position)
+{
+	t_numbers	*curr_nu;
+	int 		dist;
+
+	dist = 1;
+	curr_nu = stack;
+	if (!curr_nu)
+		return (0);
+	while (curr_nu)
+	{
+		if (curr_nu->position == position)
 			return (dist);
 		dist += 1;
 		curr_nu = curr_nu->next;
@@ -146,10 +184,90 @@ void	ft_best_move_to_next_inf(t_move *move, t_numbers **stack, int median)
 	}
 }
 
-void	ft_best_move_to_next_sup(t_move *move, t_numbers **stack, int median)
+void	ft_clean_positions(t_near_positions *positions)
+{
+	positions->next = -1;
+	positions->prev = -1;
+}
+
+int		ft_nearest_next_in_stack(t_numbers *stack, int position)
+{
+	int	min_position;
+	int	next_nu;
+	t_numbers *curr_nu;
+
+	curr_nu = stack;
+	min_position = -1;
+	next_nu = position;
+	while (curr_nu)
+	{
+		if (curr_nu->position > position)
+		{
+			min_position = curr_nu->position;
+			break ;
+		}
+		curr_nu = curr_nu->next;
+	}
+	while(curr_nu)
+	{
+		if (curr_nu->position > position && curr_nu->position < min_position)
+		min_position = curr_nu->position;
+		curr_nu = curr_nu->next;
+	}
+	return (min_position);
+}
+
+int ft_nearest_prev_in_stack(t_numbers *stack, int position)
+{
+	int	max_position;
+	int	next_nu;
+	t_numbers *curr_nu;
+
+	curr_nu = stack;
+	max_position = MAX_INT;
+	next_nu = position;
+	while (curr_nu)
+	{
+		if (curr_nu->position < position)
+		{
+			max_position = curr_nu->position;
+			break ;
+		}
+		curr_nu = curr_nu->next;
+	}
+	while(curr_nu)
+	{
+		if (curr_nu->position < position && curr_nu->position > max_position)
+			max_position = curr_nu->position;
+		curr_nu = curr_nu->next;
+	}
+	if (max_position == MAX_INT)
+		max_position = -1;
+	return (max_position);
+}
+
+void	ft_near_positions_in_stack(int position, t_numbers *stack, t_near_positions *positions)
+{
+	int			prev;
+	int			next;
+	ft_clean_positions(positions);
+	prev = position;
+	next = position;
+	if (!stack)
+		return ;
+	prev = ft_nearest_prev_in_stack(stack, position);
+	next = ft_nearest_next_in_stack(stack, position);
+	if (prev != -1)
+		positions->prev = prev;
+	if (next != -1)
+		positions->next = next;
+}
+
+void	ft_best_move_to_next_sup(t_move *move, t_numbers **stack, t_numbers **stack_b, int median)
 {
 	int min_moves_ra_sa;
 	int min_moves_rra_sa;
+	t_near_positions positions;
 
 	min_moves_ra_sa = ft_next_sup_index_ra_dist(*stack, median);
 	min_moves_rra_sa = ft_next_sup_index_rra_dist(*stack, median);
@@ -164,47 +282,9 @@ void	ft_best_move_to_next_sup(t_move *move, t_numbers **stack, int median)
 		move->move = "ra";
 	}
 	ft_pos_at_move(*stack, move);
-	printf("move->next_position:%i\n", move->pos_of_nu);
+	ft_near_positions_in_stack((*stack)->position, *stack_b, &positions);
+	printf("next_in_b:%i, prev_in_b:%i\n", positions.next, positions.prev);
 	usleep(1000000);
-}
-
-void	ft_max_near_nu(t_numbers **stack_a, int medium, t_move *move)
-{
-	int			r;
-	int			rr;
-	t_numbers	*curr_nu_r;
-	t_numbers	*curr_nu_rr;
-
-	curr_nu_r = *stack_a;
-	r = 0;
-	rr = 1;
-	while (curr_nu_r)
-	{
-		if (curr_nu_r->position > medium)
-			break ;
-		r += 1;
-		curr_nu_r = curr_nu_r->next;
-	}
-	curr_nu_rr = ft_last_elem(*stack_a);
-	while (curr_nu_rr)
-	{
-		if (curr_nu_rr->position > medium)
-			break ;
-		rr += 1;
-		curr_nu_rr = curr_nu_rr->prev;
-	}
-	if (r > rr)
-	{
-		move->pos_of_nu = curr_nu_r->position;
-		move->move = "rra";
-		move->operations = rr;
-	}
-	else
-	{
-		move->pos_of_nu = curr_nu_r->position;
-		move->move = "rr";
-		move->operations = r;
-	}
 }
 
 void	ft_sort_more(t_numbers **stack_a, t_numbers **stack_b)
@@ -212,28 +292,40 @@ void	ft_sort_more(t_numbers **stack_a, t_numbers **stack_b)
 	int max_index;
 	int median;
 	t_move move_a;
-	// t_move move_b;
-
 
 	max_index = ft_list_len(*stack_a) - 1;
 	median = ft_list_len(*stack_a) / 2;
 	while (ft_contains_indexes(*stack_a, median, max_index))
 	{
-		ft_best_move_to_next_sup(&move_a, stack_a, max_index);
+		ft_best_move_to_next_sup(&move_a, stack_a, stack_b,max_index);
 		while ((*stack_a)->position < median)
 		{
 			if (ft_list_len(*stack_b) < 2)
 				ft_do_move(stack_a, stack_b, move_a.move);
 			else
-			ft_do_move(stack_a, stack_b, move_a.move);
+				ft_do_move(stack_a, stack_b, move_a.move);
 		}
 		ft_do_move(stack_a, stack_b, "pb");
-		// system("clear");
-		// printf("contains:%i\n", ft_contains_indexes(*stack_a, 0, max_index / 2));
-		// ft_print_list(*stack_b);
-		// ft_print_list(*stack_a);
-		// usleep(1000000);
+		// system("clear")															;
+		// printf("contains:%i\n", ft_contains_indexes(*stack_a, 0, max_index / 2))	;
+		// ft_print_list(*stack_b)													;
+		// ft_print_list(*stack_a)													;
+		// usleep(1000000)															;
+		//																			;
+		//																			;
+		//																			;
+		//																			;
+		//																			;
+		//																			;
+		//																			;
+		//																			;
+		//																			;
+		//																			;
+		//																			;
+		//																			;
+		//																			;
 	}
+	
 }
 
 void	ft_case_analyzer(t_numbers **stack_a, t_numbers **stack_b)
@@ -246,15 +338,15 @@ void	ft_case_analyzer(t_numbers **stack_a, t_numbers **stack_b)
 	{
 		ft_sort_three_a(stack_a);
 	}
-	if (stack_len <= 5)
+	else if (stack_len <= 5)
 	{
 		ft_sort_five_a(stack_a, stack_b);
 	}
-	if (stack_len <= 100)
+	else if (stack_len <= 100)
 	{
 		ft_sort_more(stack_a, stack_b);
 	}
-	if (stack_len > 100)
+	else if (stack_len > 100)
 	{
 		ft_sort_more(stack_a, stack_b);
 	}
