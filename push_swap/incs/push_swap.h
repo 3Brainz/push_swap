@@ -25,9 +25,10 @@ typedef struct s_numbers
 
 typedef struct	s_move
 {
-	int			operations;
-	int			pos_of_nu;
-	char		*move;
+	int				operations;
+	int				pos_of_nu;
+	char			*move;
+	struct s_move	*next;
 }	t_move;
 
 typedef	struct	s_near_positions
