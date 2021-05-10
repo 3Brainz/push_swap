@@ -13,6 +13,23 @@
 # define BUFFER_SIZE 1
 # define MAX_INT 2147483647
 # define MIN_INT -2147483648
+# define PA 1
+# define RA 2
+# define RRA 3
+# define SA 4
+# define PB 5
+# define RB 6
+# define RRB 7
+# define SB 8
+# define RR 9
+# define RRR 10
+# define SS 11
+
+typedef struct	s_distances
+{
+	int			r;
+	int			rr;
+}				t_distances;
 
 typedef struct s_numbers
 {
@@ -20,13 +37,16 @@ typedef struct s_numbers
 	struct s_numbers	*next;
 	struct s_numbers	*prev;
 	int					position;
-	int					fake_position;
+	t_distances			dist_head;
+	t_distances			dist_in_next_prev;
+	t_distances			dist_in_next_next;
 }	t_numbers;
 
 typedef struct	s_move
 {
 	int				operations;
 	int				pos_of_nu;
+	int				move_num;
 	char			*move;
 	struct s_move	*next;
 }	t_move;
@@ -36,6 +56,8 @@ typedef	struct	s_near_positions
 	int			next;
 	int			prev;
 }				t_near_positions;
+
+
 
 int			ft_isdigit(char c);
 int			ft_isvalidchar(char c);
@@ -83,5 +105,10 @@ void		ft_do_convenient_rot_to_top_a(t_numbers **stack, int pos);
 void		ft_sort_three_a(t_numbers **stack_a);
 void		ft_sort_five_a(t_numbers **stack_a, t_numbers **stack_b);
 int			ft_max_near_nu(t_numbers **stack_a, int medium);
+int			ft_min_pos_in_stack(t_numbers *stack);
+int			ft_max_pos_in_stack(t_numbers *stack);
+int			ft_median(t_numbers *stack);
+t_numbers	*ft_nearest_next_in_stack(t_numbers *stack, int position);
+t_numbers	*ft_nearest_prev_in_stack(t_numbers *stack, int position);
 
 #endif

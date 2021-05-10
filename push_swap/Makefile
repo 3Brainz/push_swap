@@ -36,7 +36,8 @@ FILES =		ft_lst_utils1.c \
 			ft_rot_utils.c \
 			arr_utils.c \
 			ft_sorts.c \
-			push_swap.c
+			ft_list_math.c \
+			push_swap_2.0.c
 
 #Srcs
 SRCS = 			$(foreach FILE, $(FILES), $(shell find $(SRCDIR) -name $(FILE)))

@@ -72,21 +72,3 @@ t_numbers	*ft_node_with_pos(t_numbers *stack, int pos)
 	}
 	return (curr_pos);
 }
-
-int	ft_max_pos_in_stack(t_numbers *stack)
-{
-	int			pos;
-	t_numbers	*curr_pos;
-
-	curr_pos = stack;
-	pos = curr_pos->position;
-	if (!curr_pos)
-		return (0);
-	while (curr_pos)
-	{
-		if (curr_pos->position > pos)
-			pos = curr_pos->position;
-		curr_pos = curr_pos->next;
-	}
-	return (pos);
-}

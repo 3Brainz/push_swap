@@ -48,7 +48,7 @@ int	ft_next_inferior_index_ra_dist(t_numbers *stack, int median)
 	return (dist);
 }
 
-int ft_position_rr_dist(t_numbers *stack, int position)
+int ft_position_rr_dist_head(t_numbers *stack, int position)
 {
 	t_numbers	*curr_nu;
 	int 		dist;
@@ -67,7 +67,7 @@ int ft_position_rr_dist(t_numbers *stack, int position)
 	return (dist);
 }
 
-int ft_position_r_dist(t_numbers *stack, int position)
+int ft_position_r_dist_head(t_numbers *stack, int position)
 {
 	t_numbers	*curr_nu;
 	int 		dist;
@@ -85,6 +85,44 @@ int ft_position_r_dist(t_numbers *stack, int position)
 	}
 	return (dist);
 }
+
+int ft_position_rr_dist_last(t_numbers *stack, int position)
+{
+	t_numbers	*curr_nu;
+	int 		dist;
+
+	dist = 0;
+	curr_nu = ft_last_elem(stack);
+	if (!curr_nu)
+		return (0);
+	while (curr_nu)
+	{
+		if (curr_nu->position == position)
+			return (dist);
+		dist += 1;
+		curr_nu = curr_nu->prev;
+	}
+	return (dist);
+}
+
+int ft_position_r_dist_last(t_numbers *stack, int position)
+{
+	t_numbers	*curr_nu;
+	int 		dist;
+	dist = 0;
+	curr_nu = stack;
+	if (!curr_nu)
+		return (0);
+	while (curr_nu)
+	{
+		if (curr_nu->position == position)
+			return (dist);
+		dist += 1;
+		curr_nu = curr_nu->next;
+	}
+	return (dist);
+}
+
 
 int ft_next_inferior_index_rra_dist(t_numbers *stack, int median)
 {
@@ -287,25 +325,201 @@ void	ft_best_move_to_next_sup(t_move *move, t_numbers **stack, t_numbers **stack
 	usleep(1000000);
 }
 
+void	ft_best_move_to_bring_on_top_b(t_move *move, t_numbers *stack, int position)
+{
+	int	r_dist;
+	int rr_dist;
+
+	r_dist = ft_position_r_dist_head(stack, position);
+	rr_dist = ft_position_rr_dist_head(stack, position);
+	if (r_dist < rr_dist)
+	{
+		move->move = "rb";
+		move->operations = r_dist;
+	}
+	else
+	{
+		move->move = "rrb";
+		move->operations = rr_dist;
+	}
+	move->pos_of_nu = position;
+}
+
+void	ft_best_move_to_bring_on_bottom_b(t_move *move, t_numbers *stack, int position)
+{
+	int	r_dist;
+	int rr_dist;
+
+	r_dist = ft_position_r_dist_last(stack, position);
+	rr_dist = ft_position_rr_dist_last(stack, position);
+	if (r_dist < rr_dist)
+	{
+		move->move = "rb";
+		move->operations = r_dist;
+	}
+	else
+	{
+		move->move = "rrb";
+		move->operations = rr_dist;
+	}
+	move->pos_of_nu = position;
+}
+
+void	ft_copy_move(t_move *dest, t_move *src)
+{
+	dest->move = src->move;
+	dest->next = src->next;
+	dest->operations = src->operations;
+	dest->pos_of_nu = src->pos_of_nu;
+}
+
+void	ft_clean_move(t_move *move)
+{
+	move->operations = 0;
+	move->next = 0;
+	move->move = 0;
+	move->pos_of_nu = -1;
+}
+
+void	ft_compare_moves_and_copy(t_move *move_1, t_move *move_2, t_move *dest)
+{
+	ft_clean_move(dest);
+	if (move_1->move && move_2->move)
+	{
+		if (move_1->operations < move_2->operations)
+			ft_copy_move(dest, move_1);
+		else
+			ft_copy_move(dest, move_2);
+	}
+	else if (move_1->move)
+		ft_copy_move(move_1, dest);
+	else if (move_2->move)
+		ft_copy_move(move_1, dest);
+}
+
+void	ft_analyzer_move_b(t_numbers *stack_b, t_near_positions *positions, t_move *move_a, t_move *move_b)
+{
+	t_move	move_prev;
+	t_move	move_next;
+
+	ft_clean_move(&move_next);
+	ft_clean_move(&move_prev);
+	if (positions->next != -1)
+		ft_best_move_to_bring_on_bottom_b(&move_next, stack_b, positions->next);
+	if (positions->prev != -1)
+		ft_best_move_to_bring_on_top_b(&move_prev, stack_b, positions->prev);
+	if ((move_prev.move) && !ft_strcmp_wo_n(move_prev.move, move_a->move))
+		ft_copy_move(move_b, &move_prev);
+	if ((move_next.move) && !ft_strcmp_wo_n(move_next.move, move_a->move))
+		ft_copy_move(move_b, &move_next);
+	else
+		ft_compare_moves_and_copy(&move_prev, &move_next, move_b);
+}
+
+char	*ft_guess_combi_move(char *move)
+{
+	if (!ft_strcmp_wo_n(move, "ra"))
+		return ("rr");
+	else
+		return ("rrr");
+}
+
+int	ft_min(int a, int b)
+{
+	if (a < b)
+		return (a);
+	else
+		return (b);
+}
+
+void	ft_do_combined_moves(t_move *moves, t_numbers **stack_a, t_numbers **stack_b)
+{
+	int moves_index;
+	int iterator;
+
+	moves_index = 0;
+	while (moves_index < 3)
+	{
+		iterator = 0;
+		printf("wewee:%s", moves[moves_index].move);
+		while (moves[moves_index].operations != iterator)
+		{
+			ft_do_move(stack_a, stack_b, moves[moves_index].move);
+			iterator += 1;
+		}
+		moves_index += 1;
+	}
+}
+
+
+t_move	*ft_consequent_moves(t_move *move_a, t_move *move_b)
+{
+	t_move	*combined;
+	int		index;
+	int		min;
+
+	index = 0;
+	combined = ft_calloc(sizeof(t_move), 4);
+	if ((!ft_strcmp_wo_n(move_a->move, "ra") && !ft_strcmp_wo_n(move_b->move, "rb"))
+		|| (!ft_strcmp_wo_n(move_a->move, "rra") && !ft_strcmp_wo_n(move_b->move, "rrb")))
+	{
+		min = ft_min(move_a->operations, move_b->operations);
+		combined[index].move = ft_guess_combi_move(move_a->move);
+		combined[index].operations = min;
+		move_b->operations -= min;
+		move_a->operations -= min;
+		index += 1;
+	}
+	if (move_a->operations)
+	{
+		ft_copy_move(&combined[index], move_a);
+		index += 1;
+	}
+	if (move_b->operations)
+		ft_copy_move(&combined[index], move_b);
+	index = 0;
+	return (combined);
+}
+
+void	ft_combined_moves_sup(t_numbers **stack_a, t_numbers **stack_b, int median)
+{
+	t_move	move_a;
+	t_move	move_b;
+	t_move	*combined;
+	t_near_positions positions;
+
+	ft_clean_move(&move_a);
+	ft_clean_move(&move_b);
+	ft_best_move_to_next_sup(&move_a , stack_a, stack_b, median);
+	ft_analyzer_move_b(*stack_b, &positions, &move_a, &move_b);
+	combined = ft_consequent_moves(&move_a, &move_b);
+	ft_do_combined_moves(combined, stack_a, stack_b);
+	ft_do_move(stack_a, stack_b, "pb");
+	free(combined);
+}
+
+
 void	ft_sort_more(t_numbers **stack_a, t_numbers **stack_b)
 {
 	int max_index;
 	int median;
-	t_move move_a;
+	// t_move move_a;
 
 	max_index = ft_list_len(*stack_a) - 1;
 	median = ft_list_len(*stack_a) / 2;
 	while (ft_contains_indexes(*stack_a, median, max_index))
 	{
-		ft_best_move_to_next_sup(&move_a, stack_a, stack_b,max_index);
-		while ((*stack_a)->position < median)
-		{
-			if (ft_list_len(*stack_b) < 2)
-				ft_do_move(stack_a, stack_b, move_a.move);
-			else
-				ft_do_move(stack_a, stack_b, move_a.move);
-		}
-		ft_do_move(stack_a, stack_b, "pb");
+
+		ft_combined_moves_sup(stack_a, stack_b, median);
+		// ft_best_move_to_next_sup(&move_a, stack_a, stack_b,max_index);
+		// while ((*stack_a)->position < median)
+		// {
+		// 	if (ft_list_len(*stack_b) < 2)
+		// 		ft_do_move(stack_a, stack_b, move_a.move);
+		// 	else
+		// 		ft_do_move(stack_a, stack_b, move_a.move);
+		// }
+		// ft_do_move(stack_a, stack_b, "pb");
 		// system("clear")															;
 		// printf("contains:%i\n", ft_contains_indexes(*stack_a, 0, max_index / 2))	;
 		// ft_print_list(*stack_b)													;
