@@ -24,6 +24,10 @@
 # define RR 9
 # define RRR 10
 # define SS 11
+# define TOGETHER 0
+# define JUST_A 1
+# define JUST_B 2
+# define TOTAL_M 3
 
 typedef struct	s_distances
 {
@@ -37,9 +41,10 @@ typedef struct s_numbers
 	struct s_numbers	*next;
 	struct s_numbers	*prev;
 	int					position;
+	int					min_combi_moves;
 	t_distances			dist_head;
-	t_distances			dist_in_next_prev;
-	t_distances			dist_in_next_next;
+	t_distances			dist_in_next_prev_h;
+	t_distances			dist_in_next_next_b;
 }	t_numbers;
 
 typedef struct	s_move
