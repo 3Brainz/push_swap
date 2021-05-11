@@ -174,13 +174,13 @@ void	ft_module_sub(int a, int b, int *res, int *rem)
 {
 	if (a > b)
 	{
-		*res = a - b;
-		*rem = a - *res;
+		*rem = a - b;
+		*res = a - *rem;
 	}
 	else
 	{
-		*res = b - a;
-		*rem = b - *res;
+		*rem = b - a;
+		*res = b - *rem;
 	}
 }
 
@@ -309,7 +309,7 @@ void	ft_set_distances_in_stack(t_numbers *stack, t_numbers *dest_stack)
 	}
 }
 
-int		ft_ideal_move_target(t_numbers *node)
+t_distances		*ft_ideal_move_target(t_numbers *node)
 {
 	int min_prev_h;
 	int min_next_b;
@@ -320,14 +320,14 @@ int		ft_ideal_move_target(t_numbers *node)
 		!is_dist(&node->dist_in_next_prev_h))
 		return (0);
 	if (!is_dist(&node->dist_in_next_next_b))
-		return (MIN_PREV_H);
+		return (&node->dist_in_next_prev_h);
 	else if (!is_dist(&node->dist_in_next_prev_h))
-		return (MIN_NEXT_B);
+		return (&node->dist_in_next_next_b);
 	else
 	{
 		if (min_prev_h < min_next_b)
-			return (MIN_PREV_H);
-		return (MIN_NEXT_B);
+			return (&node->dist_in_next_prev_h);
+		return (&node->dist_in_next_next_b);
 	}
 }
 
@@ -336,7 +336,7 @@ t_numbers	*min_moves_node(t_numbers *stack)
 	t_numbers *curr_nu;
 	t_numbers *min;
 	curr_nu = stack;
-	min = curr_nu;
+	min =	stack;
 	while (curr_nu)
 	{
 		if (curr_nu->min_combi_moves < min->min_combi_moves)
@@ -344,6 +344,47 @@ t_numbers	*min_moves_node(t_numbers *stack)
 		curr_nu = curr_nu->next;
 	}
 	return (min);
+}
+
+// t_numbers	*ft_max_node_in_stack(t_numbers *stack)
+// {
+// 	t_numbers	*curr_nu;
+// 	t_numbers	*max;
+
+// 	curr_nu = stack;
+// 	max = stack;
+
+// 	while (curr_nu)
+// 	{
+// 		if (max->position < curr_nu->position)
+// 			max = curr_nu;
+// 		curr_nu = curr_nu->next;
+// 	}
+// 	return (max);
+// }
+
+void	ft_max_on_head_b(t_numbers **stack_b)
+{
+	t_numbers *max;
+
+	max = ft_max_node_in_stack(*stack_b);
+	ft_node_distances_from_head(max, &max->dist_head);
+	if (max->dist_head.r < max->dist_head.rr)
+	{
+		while (max->dist_head.r > 0)
+		{
+			ft_do_move(NULL, stack_b, "rb");
+			max->dist_head.r -= 1;
+		}
+	}
+	else
+	{
+		while (max->dist_head.rr > 0)
+		{
+			ft_do_move(NULL, stack_b, "rrb");
+			max->dist_head.rr -= 1;
+		}
+	}
 }
 
 /*
@@ -376,22 +417,73 @@ int		ft_calculate_min_comb(int ra, int rra, int rb, int rrb)
 }
 */
 
-void	ft_rrr_comb(int *rrr)
+void	ft_rrr_comb(int *rrr, t_numbers **stack_a, t_numbers **stack_b)
 {
-
+	while (rrr[TOGETHER] > 0)
+	{
+		ft_do_move(stack_a, stack_b, "rrr");
+		rrr[TOGETHER] -= 1;
+	}
+	while (rrr[JUST_A] > 0)
+	{
+		ft_do_move(stack_a, stack_b, "rra");
+		rrr[JUST_A] -= 1;
+	}
+	while (rrr[JUST_B] > 0)
+	{
+		ft_do_move(stack_a, stack_b, "rrb");
+		rrr[JUST_B] -= 1;
+	}
 }
 
-void	ft_rr_comb(int *rr)
+void	ft_rr_comb(int *rr, t_numbers **stack_a, t_numbers **stack_b)
 {
-
+	while (rr[TOGETHER] > 0)
+	{
+		ft_do_move(stack_a, stack_b, "rr");
+		rr[TOGETHER] -= 1;
+	}
+	while (rr[JUST_A] > 0)
+	{
+		ft_do_move(stack_a, stack_b, "ra");
+		rr[JUST_A] -= 1;
+	}
+	while (rr[JUST_B] > 0)
+	{
+		ft_do_move(stack_a, stack_b, "rb");
+		rr[JUST_B] -= 1;
+	}
 }
 
-void	ft_rarrb_comb(int ra, int rrb)
+void	ft_rarrb_comb(int ra, int rrb, t_numbers **stack_a, t_numbers **stack_b)
 {
-	
+	while (ra > 0)
+	{
+		ft_do_move(stack_a, stack_b, "ra");
+		ra -= 1;
+	}
+	while (rrb > 0)
+	{
+		ft_do_move(stack_a, stack_b, "rrb");
+		rrb -= 1;
+	}
 }
 
-int		ft_create_min_comb(int ra, int rra, int rb, int rrb)
+void	ft_rrarb_comb(int rra, int rb, t_numbers **stack_a, t_numbers **stack_b)
+{
+	while (rra > 0)
+	{
+		ft_do_move(stack_a, stack_b, "rra");
+		rra -= 1;
+	}
+	while (rb > 0)
+	{
+		ft_do_move(stack_a, stack_b, "rb");
+		rb -= 1;
+	}
+}
+
+void		ft_do_min_comb(int ra, int rra, int rb, int rrb, t_numbers **stack_a, t_numbers **stack_b)
 {
 	int rrr[4];
 	int rr[4];
@@ -409,30 +501,33 @@ int		ft_create_min_comb(int ra, int rra, int rb, int rrb)
 	rrarb = rra + rb;
 	rel_min = ft_find_min(rrr[TOTAL_M], rr[TOTAL_M], rarrb, rarrb);
 	if (rel_min == 0)
-		return (rrr[TOTAL_M]);
+		ft_rrr_comb(rrr, stack_a, stack_b);
 	else if (rel_min == 1)
-		return (rr[TOTAL_M]);
+		ft_rr_comb(rr, stack_a, stack_b);
 	else if (rel_min == 2)
-		return (rarrb);
+		ft_rarrb_comb(ra, rrb, stack_a, stack_b);
 	else
-		return (rrarb);
-	return (0);
+		ft_rrarb_comb(rra, rb, stack_a, stack_b);
 }
 
-void	ft_combined_move(t_numbers *node, t_distances *t_distances)
-{
 
+void	ft_do_min_moves_node(t_numbers *node, t_numbers **stack_a, t_numbers **stack_b)
+{
+	t_distances *move_distances;
+
+	move_distances = ft_ideal_move_target(node);
+	if (!move_distances)
+		return ;
+	ft_do_min_comb(node->dist_head.r, node->dist_head.rr, move_distances->r, move_distances->rr, stack_a, stack_b);
 }
 
-void	ft_do_min_moves_node(t_numbers *node)
+void	ft_min_moves(t_numbers *head, t_numbers **stack_a, t_numbers **stack_b)
 {
-	int move_target;
+	t_numbers	*min_node;
 
-	move_target = ft_ideal_move_target(node);
-	if (move_target == MIN_PREV_H)
-
-	else if(move_target == MIN_NEXT_B)
-
+	min_node = min_moves_node(head);
+	// printf("min_node : %i\n", min_node->position);
+	ft_do_min_moves_node(min_node, stack_a, stack_b);
 }
 
 void	ft_sort_more(t_numbers **stack_a, t_numbers **stack_b)
@@ -443,11 +538,19 @@ void	ft_sort_more(t_numbers **stack_a, t_numbers **stack_b)
 	while (*stack_a)
 	{
 		ft_set_distances_in_stack(*stack_a, *stack_b);
-		ft_print_list(*stack_a);
-		ft_print_list(*stack_b);
-
+		ft_min_moves(*stack_a, stack_a, stack_b);
 		ft_do_move(stack_a, stack_b, "pb");
+		// ft_print_list(*stack_a);
+		// printf("\n");
+		// ft_print_list(*stack_b);
+		// read(0, NULL, 1);
 	}
+	ft_max_on_head_b(stack_b);
+	while (*stack_b)
+	{
+		ft_do_move(stack_a, stack_b, "pa");
+	}
+	// ft_print_list(*stack_a);
 }
 
 void	ft_case_analyzer(t_numbers **stack_a, t_numbers **stack_b)
@@ -473,7 +576,7 @@ void	ft_case_analyzer(t_numbers **stack_a, t_numbers **stack_b)
 	else if (stack_len > 100)
 	{
 		 (void)stack_len;
-		 ft_sort_five_a(stack_a, stack_b);
+		ft_sort_more(stack_a, stack_b);
 		// ft_sort_more(stack_a, stack_b);
 	}
 	// system("clear");

@@ -72,7 +72,19 @@ typedef	struct	s_near_positions
 	int			prev;
 }				t_near_positions;
 
+typedef	struct	s_combined
+{
+	int			ra;
+	int			rra;
+	int			rb;
+	int			rrb;
+}				t_combined;
 
+typedef struct	s_heads
+{
+	t_numbers	*head_a;
+	t_numbers	*head_b;
+}				t_heads;
 
 int			ft_isdigit(char c);
 int			ft_isvalidchar(char c);
@@ -125,5 +137,8 @@ int			ft_max_pos_in_stack(t_numbers *stack);
 int			ft_median(t_numbers *stack);
 t_numbers	*ft_nearest_next_in_stack(t_numbers *stack, int position);
 t_numbers	*ft_nearest_prev_in_stack(t_numbers *stack, int position);
+t_numbers	*ft_max_node_in_stack(t_numbers *stack);
+void		ft_max_on_head_b(t_numbers **stack_b);
+
 
 #endif

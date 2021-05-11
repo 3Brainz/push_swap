@@ -49,6 +49,7 @@ void	ft_push(t_numbers **dest, t_numbers **src)
 		*src = (*src)->next;
 		(*src)->prev = 0;
 		(*dest)->next = 0;
+		(*dest)->prev = 0;
 	}
 	else
 	{
