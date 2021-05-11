@@ -28,11 +28,21 @@
 # define JUST_A 1
 # define JUST_B 2
 # define TOTAL_M 3
+# define SEQ_RA 0
+# define SEQ_RRA 1
+# define SEQ_RB 2
+# define SEQ_RRB 3
+# define SEQ_RR 4
+# define SEQ_RRR 5
+# define MIN_PREV_H 1
+# define MIN_NEXT_B 2
+
 
 typedef struct	s_distances
 {
 	int			r;
 	int			rr;
+	int			num;
 }				t_distances;
 
 typedef struct s_numbers
