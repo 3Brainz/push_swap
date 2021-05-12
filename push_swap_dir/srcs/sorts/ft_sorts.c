@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ft_sorts.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfarnia <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: ppunzo <ppunzo@student.42roma.it>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/12 16:24:58 by mfarnia           #+#    #+#             */
 /*   Updated: 2021/05/12 16:25:00 by mfarnia          ###   ########.fr       */

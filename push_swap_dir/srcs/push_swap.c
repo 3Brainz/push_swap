@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfarnia <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: ppunzo <ppunzo@student.42roma.it>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/12 16:30:44 by mfarnia           #+#    #+#             */
 /*   Updated: 2021/05/12 16:30:46 by mfarnia          ###   ########.fr       */
@@ -14,13 +14,12 @@
 
 void	ft_case_analyzer(t_numbers **stack_a, t_numbers **stack_b)
 {
-	int	stack_len;
+	int			stack_len;
 
-	(void)stack_b;
 	stack_len = ft_list_len(*stack_a);
-	while (ft_is_consequent_ordered(*stack_a))
-		return ;
-	if (stack_len <= 3)
+	if (ft_is_consequent_ordered(*stack_a))
+		ft_min_on_head(stack_a);
+	else if (stack_len <= 3)
 		ft_sort_three_a(stack_a);
 	else if (stack_len <= 5)
 		ft_sort_five_a(stack_a, stack_b);

@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ft_list_utils2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfarnia <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: ppunzo <ppunzo@student.42roma.it>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/12 16:29:56 by mfarnia           #+#    #+#             */
 /*   Updated: 2021/05/12 16:29:58 by mfarnia          ###   ########.fr       */

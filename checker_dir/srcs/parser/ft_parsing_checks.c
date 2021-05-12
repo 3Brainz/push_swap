@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parsing_checks.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfarnia <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: ppunzo <ppunzo@student.42roma.it>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/12 15:28:43 by mfarnia           #+#    #+#             */
 /*   Updated: 2021/05/12 15:28:45 by mfarnia          ###   ########.fr       */

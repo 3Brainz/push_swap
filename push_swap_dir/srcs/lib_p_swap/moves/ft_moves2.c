@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ft_moves2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfarnia <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: ppunzo <ppunzo@student.42roma.it>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/12 16:23:12 by mfarnia           #+#    #+#             */
 /*   Updated: 2021/05/12 16:23:14 by mfarnia          ###   ########.fr       */
@@ -33,5 +33,20 @@ void	ft_max_on_head_b(t_numbers **stack_b)
 			ft_do_move(NULL, stack_b, "rrb");
 			max->dist_head.rr -= 1;
 		}
+	}
+}
+
+void	ft_min_on_head(t_numbers **stack_a)
+{
+	t_numbers *j_i_c;
+
+	j_i_c = ft_min_node(*stack_a);
+	ft_node_distances_from_head(j_i_c, &j_i_c->dist_head);
+	while (*stack_a != j_i_c)
+	{
+		if (j_i_c->dist_head.r < j_i_c->dist_head.rr)
+			ft_do_move(stack_a, NULL, "ra");
+		else
+			ft_do_move(stack_a, NULL, "rra");
 	}
 }

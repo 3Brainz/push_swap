@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ft_combi_moves3.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfarnia <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: ppunzo <ppunzo@student.42roma.it>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/12 16:22:48 by mfarnia           #+#    #+#             */
 /*   Updated: 2021/05/12 16:22:50 by mfarnia          ###   ########.fr       */

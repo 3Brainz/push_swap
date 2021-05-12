@@ -154,6 +154,7 @@ t_distances *distances);
 void		ft_set_distances_in_stack(t_numbers *stack, t_numbers *dest_stack);
 void		ft_min_moves(t_numbers *head, t_numbers **stack_a, \
 t_numbers **stack_b);
+void		ft_min_on_head(t_numbers **stack_a);
 t_numbers	*ft_first_elem(t_numbers *node);
 void		ft_dist_clear(t_distances *dist);
 int			ft_ideal_move_len(t_numbers *node);
