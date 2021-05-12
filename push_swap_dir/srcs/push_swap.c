@@ -28,4 +28,5 @@ int	main(int argc, char **argv)
 	ft_fill_stack_a(argv, &stack_a);
 	ft_indicize_list(stack_a);
 	ft_case_analyzer(&stack_a, &stack_b);
+	ft_freelist(stack_a);
 }
