@@ -21,3 +21,8 @@ fclean:
 	${MAKE_F} ${PUSH_SWAP_DIR}
 
 re: fclean all
+
+copy:
+	cp ${CHECKER_DIR}
+
+.PHONY: all clean fclean re

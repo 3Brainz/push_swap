@@ -13,8 +13,8 @@ void	ft_sort_three_a(t_numbers **stack_a)
 		{
 			ft_do_move(stack_a, NULL, "sa");
 		}
-		if(ft_isordered(*stack_a))
-			break;
+		if (ft_isordered(*stack_a))
+			break ;
 		ft_do_move(stack_a, NULL, "rra");
 	}
 }
@@ -41,6 +41,24 @@ void	ft_sort_five_a(t_numbers **stack_a, t_numbers **stack_b)
 		index += 1;
 	}
 	ft_sort_three_a(stack_a);
+	while (*stack_b)
+	{
+		ft_do_move(stack_a, stack_b, "pa");
+	}
+}
+
+void	ft_sort_more(t_numbers **stack_a, t_numbers **stack_b)
+{
+	int	median;
+
+	median = ft_median(*stack_a);
+	while (*stack_a)
+	{
+		ft_set_distances_in_stack(*stack_a, *stack_b);
+		ft_min_moves(*stack_a, stack_a, stack_b);
+		ft_do_move(stack_a, stack_b, "pb");
+	}
+	ft_max_on_head_b(stack_b);
 	while (*stack_b)
 	{
 		ft_do_move(stack_a, stack_b, "pa");

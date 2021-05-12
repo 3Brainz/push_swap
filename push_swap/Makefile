@@ -21,23 +21,32 @@ OBJDIR =  		./objs
 INCDIR = 		./incs
 
 #Files
-FILES =		ft_lst_utils1.c \
+FILES =		ft_filler.c \
+			ft_lst_utils1.c \
 			ft_lst_utils2.c \
+			ft_combi_moves.c \
+			ft_combi_moves2.c \
+			ft_combi_moves3.c \
+			ft_combi_moves4.c \
 			ft_moves_executor.c \
 			ft_moves.c \
+			ft_moves2.c \
+			ft_rot_utils.c \
 			ft_parsing_checks.c \
 			ft_utils.c \
 			get_next_line_utils.c \
 			get_next_line.c \
-			ft_filler.c \
-			list_utils.c \
+			ft_sorts.c \
+			ft_struct_utils.c \
+			ft_list_math.c \
+			ft_list_math2.c \
+			ft_list_utils.c \
+			ft_list_utils2.c \
 			ft_node_utils.c \
 			ft_node_utils2.c \
-			ft_rot_utils.c \
-			arr_utils.c \
-			ft_sorts.c \
-			ft_list_math.c \
-			push_swap_2.0.c
+			ft_node_utils3.c \
+			ft_arr_utils.c \
+			push_swap.c
 
 #Srcs
 SRCS = 			$(foreach FILE, $(FILES), $(shell find $(SRCDIR) -name $(FILE)))

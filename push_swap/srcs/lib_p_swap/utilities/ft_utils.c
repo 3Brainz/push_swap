@@ -70,8 +70,8 @@ void	ft_print_list(t_numbers *head)
 	printf("-\n");
 	while (curr_num)
 	{
-		// printf("num: %li pos: %i n_n_i_s.rb:%i n_n_i_s.rrb:%i n_b_i_s.rb:%i n_b_i_s.rrb:%i min_combi:%i target_next:%i target_prev :%i\n", curr_num->number, curr_num->position, curr_num->dist_in_next_next_b.r, curr_num->dist_in_next_next_b.rr, curr_num->dist_in_next_prev_h.r, curr_num->dist_in_next_next_b.rr, curr_num->min_combi_moves, curr_num->dist_in_next_next_b.num , curr_num->dist_in_next_prev_h.num);
-		printf("num: %li pos: %i min_combi:%i \n", curr_num->number, curr_num->position, curr_num->min_combi_moves);
+		printf("num: %li pos: %i min_combi:%i \n", \
+		curr_num->number, curr_num->position, curr_num->min_combi_moves);
 		curr_num = curr_num->next;
 	}
 	printf("-\n");

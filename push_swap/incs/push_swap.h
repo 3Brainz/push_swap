@@ -37,8 +37,7 @@
 # define MIN_PREV_H 1
 # define MIN_NEXT_B 2
 
-
-typedef struct	s_distances
+typedef struct s_distances
 {
 	int			r;
 	int			rr;
@@ -57,7 +56,7 @@ typedef struct s_numbers
 	t_distances			dist_in_next_next_b;
 }	t_numbers;
 
-typedef struct	s_move
+typedef struct s_move
 {
 	int				operations;
 	int				pos_of_nu;
@@ -66,13 +65,13 @@ typedef struct	s_move
 	struct s_move	*next;
 }	t_move;
 
-typedef	struct	s_near_positions
+typedef struct s_near_positions
 {
 	int			next;
 	int			prev;
 }				t_near_positions;
 
-typedef	struct	s_combined
+typedef struct s_combined
 {
 	int			ra;
 	int			rra;
@@ -80,7 +79,7 @@ typedef	struct	s_combined
 	int			rrb;
 }				t_combined;
 
-typedef struct	s_heads
+typedef struct s_heads
 {
 	t_numbers	*head_a;
 	t_numbers	*head_b;
@@ -122,7 +121,7 @@ int			ft_is_consequent_ordered_rev(t_numbers *stack);
 t_numbers	*ft_min_node(t_numbers *stack);
 t_numbers	*ft_succ_node(t_numbers *stack, t_numbers *rel_prev);
 int			ft_node_pos(t_numbers *stack, t_numbers *node);
-t_numbers 	*ft_node_with_pos(t_numbers *stack, int pos);
+t_numbers	*ft_node_with_pos(t_numbers *stack, int pos);
 int			ft_max_pos_in_stack(t_numbers *stack);
 int			ft_min_near_nu(t_numbers **stack_a, int medium);
 char		*ft_convenient_rotation_a(t_numbers *stack, t_numbers *node);
@@ -139,6 +138,26 @@ t_numbers	*ft_nearest_next_in_stack(t_numbers *stack, int position);
 t_numbers	*ft_nearest_prev_in_stack(t_numbers *stack, int position);
 t_numbers	*ft_max_node_in_stack(t_numbers *stack);
 void		ft_max_on_head_b(t_numbers **stack_b);
-
+void		ft_clean_combi(int *combi);
+void		ft_module_sub(int a, int b, int *res, int *rem);
+int			ft_whitch_rem(int a, int b);
+void		ft_combi_sum(int *combi);
+int			ft_find_min(int	rrr_tot, int rr_tot, int rarrb, int rrarb);
+int			ft_is_dist(t_distances *dist);
+int			ft_min(int a, int b);
+t_distances	*ft_ideal_move_target(t_numbers *node);
+void		ft_do_min_comb(t_distances *dist_a, t_distances *dist_b, \
+t_numbers **stack_a, t_numbers **stack_b);
+t_numbers	*min_moves_node(t_numbers *stack);
+void		ft_node_distances_from_head(t_numbers *node, \
+t_distances *distances);
+void		ft_set_distances_in_stack(t_numbers *stack, t_numbers *dest_stack);
+void		ft_min_moves(t_numbers *head, t_numbers **stack_a, \
+t_numbers **stack_b);
+t_numbers	*ft_first_elem(t_numbers *node);
+void		ft_dist_clear(t_distances *dist);
+int			ft_ideal_move_len(t_numbers *node);
+void		ft_sort_more(t_numbers **stack_a, t_numbers **stack_b);
+void		ft_clean_distances(t_distances *dist);
 
 #endif

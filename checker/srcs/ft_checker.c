@@ -21,10 +21,6 @@ int	main(int argc, char **argv)
 		write (1, "OK\n", 3);
 	else
 		write (1, "KO\n", 3);
-	printf("a\n");
-	ft_print_list(head);
-	printf("b\n");
-	ft_print_list(stack_b);
 	ft_freelist(stack_b);
 	ft_freelist(head);
 	return (0);

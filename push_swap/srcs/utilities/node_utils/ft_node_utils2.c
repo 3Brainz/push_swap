@@ -1,63 +1,69 @@
 #include "push_swap.h"
 
-int	ft_min_near_nu(t_numbers **stack_a, int medium)
+void	ft_clean_distances(t_distances *dist)
 {
-	int			r;
-	int			rr;
+	dist->r = 0;
+	dist->rr = 0;
+}
+
+void	ft_set_first_last(t_numbers **first, t_numbers **last, t_numbers *stack)
+{
+	*first = stack;
+	*last = ft_last_elem(stack);
+}
+
+int	ft_max_near_nu(t_numbers **stack_a, int medium)
+{
+	t_distances	rrr;
 	t_numbers	*curr_nu_r;
 	t_numbers	*curr_nu_rr;
 
-	curr_nu_r = *stack_a;
-	r = 0;
-	rr = 0;
+	ft_set_first_last(&curr_nu_r, &curr_nu_rr, *stack_a);
+	ft_clean_distances(&rrr);
 	while (curr_nu_r)
 	{
-		if (curr_nu_r->position < medium)
+		if (curr_nu_r->position > medium)
 			break ;
-		r += 1;
+		rrr.r += 1;
 		curr_nu_r = curr_nu_r->next;
 	}
-	curr_nu_rr = ft_last_elem(*stack_a);
 	while (curr_nu_rr)
 	{
-		if (curr_nu_rr->position < medium)
+		if (curr_nu_rr->position > medium)
 			break ;
-		rr += 1;
+		rrr.rr += 1;
 		curr_nu_rr = curr_nu_rr->prev;
 	}
-	if (r > rr)
+	if (rrr.r > rrr.rr)
 		return (curr_nu_r->position);
 	else
 		return (curr_nu_rr->position);
 	return (0);
 }
 
-int	ft_max_near_nu(t_numbers **stack_a, int medium)
+int	ft_min_near_nu(t_numbers **stack_a, int medium)
 {
-	int			r;
-	int			rr;
+	t_distances	rrr;
 	t_numbers	*curr_nu_r;
 	t_numbers	*curr_nu_rr;
 
-	curr_nu_r = *stack_a;
-	r = 0;
-	rr = 0;
+	ft_set_first_last(&curr_nu_r, &curr_nu_rr, *stack_a);
+	ft_clean_distances(&rrr);
 	while (curr_nu_r)
 	{
-		if (curr_nu_r->position > medium)
+		if (curr_nu_r->position < medium)
 			break ;
-		r += 1;
+		rrr.r += 1;
 		curr_nu_r = curr_nu_r->next;
 	}
-	curr_nu_rr = ft_last_elem(*stack_a);
 	while (curr_nu_rr)
 	{
-		if (curr_nu_rr->position > medium)
+		if (curr_nu_rr->position < medium)
 			break ;
-		rr += 1;
+		rrr.rr += 1;
 		curr_nu_rr = curr_nu_rr->prev;
 	}
-	if (r > rr)
+	if (rrr.r > rrr.rr)
 		return (curr_nu_r->position);
 	else
 		return (curr_nu_rr->position);

@@ -2,8 +2,8 @@
 
 int	*ft_void_int_array(int len)
 {
-	int *arr;
-	int index;
+	int	*arr;
+	int	index;
 
 	index = 0;
 	arr = malloc(len + 1 * sizeof(int));
@@ -15,9 +15,9 @@ int	*ft_void_int_array(int len)
 	return (arr);
 }
 
-int ft_int_arr_len(int *arr)
+int	ft_int_arr_len(int *arr)
 {
-	int index;
+	int	index;
 
 	index = 0;
 	while (arr[index] > 0)
