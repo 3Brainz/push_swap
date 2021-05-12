@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   push_swap.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mfarnia <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/05/12 16:30:44 by mfarnia           #+#    #+#             */
+/*   Updated: 2021/05/12 16:30:46 by mfarnia          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
 void	ft_case_analyzer(t_numbers **stack_a, t_numbers **stack_b)
@@ -6,6 +18,8 @@ void	ft_case_analyzer(t_numbers **stack_a, t_numbers **stack_b)
 
 	(void)stack_b;
 	stack_len = ft_list_len(*stack_a);
+	while (ft_is_consequent_ordered(*stack_a))
+		return ;
 	if (stack_len <= 3)
 		ft_sort_three_a(stack_a);
 	else if (stack_len <= 5)
