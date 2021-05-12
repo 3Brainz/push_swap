@@ -38,7 +38,7 @@ void	ft_max_on_head_b(t_numbers **stack_b)
 
 void	ft_min_on_head(t_numbers **stack_a)
 {
-	t_numbers *j_i_c;
+	t_numbers	*j_i_c;
 
 	j_i_c = ft_min_node(*stack_a);
 	ft_node_distances_from_head(j_i_c, &j_i_c->dist_head);
